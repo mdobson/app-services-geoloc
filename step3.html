@@ -10,7 +10,7 @@
         <script type="text/javascript">
         
             var apigee = new Usergrid.Client({
-                orgName:'YOUR APIGEE.COM USERNAME',
+                orgName:'mdobson',
                 appName:'sandbox'
             });
 
@@ -51,40 +51,10 @@
           <h3>
               Places to See
           </h3>
+          <a href="#page-new-landmark" id="btn-compose" data-icon="plus" data-iconpos="right" data-inline="true" data-role="button" data-rel="dialog" data-transition="fade" class="ui-btn-right">Add</a>
       </div>
       <div data-role="content">
           <ul data-role="listview" data-divider-theme="b" data-inset="false" id="landmarks-list">
-              <li data-theme="c">
-                  <h3>Landmark Name 1</h3>
-                  <p>Landmark Location 1</p>
-              </li>
-              <li data-theme="c">
-                  <h3>Landmark Name 2</h3>
-                  <p>Landmark Location 2</p>
-              </li>
-          </ul>
-      </div>
-  </div>
-</body>
-</html>
-
-<html>
-<head>3
-  <title>Places to See</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.css" />
-  <script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
-  <script src="http://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.js"></script>
-</head>
-<body>
-  <div data-role="page" data-control-title="Home" data-theme="b" id="page1">
-      <div data-theme="b" data-role="header">
-          <h3>
-              Places to See
-          </h3>
-      </div>
-      <div data-role="content">
-          <ul data-role="listview" data-divider-theme="b" data-inset="false">
               <li data-theme="c">
                   <h4>Landmark Name 1</h4>
                   <p>Landmark Location 1</p>
@@ -96,5 +66,20 @@
           </ul>
       </div>
   </div>
-</body>
+  <div data-role="page" data-theme="b" id="page-new-landmark">
+      <div data-role="header" data-theme="b">
+          <h1>Add a New Landmark</h1>
+      </div>
+      <div data-role="content">
+          <form>
+              <label for="title-field">Title</label>
+              <textarea id="title-field"></textarea>
+              <label for="author-field">Author</label>
+              <textarea id="author-field"></textarea>
+          </form>    
+          <a href="#page-books-list" data-role="button" data-theme="c" data-inline="true">Cancel</a>
+          <button id="create-button" data-inline="true">Create</button>
+      </div>
+  </div>
+  </body>
 </html>
