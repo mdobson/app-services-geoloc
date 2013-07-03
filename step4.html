@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html><!DOCTYPE html>
 <html>
 <head>3
   <title>Places to See</title>
@@ -6,6 +6,65 @@
   <link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.css" />
   <script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
   <script src="http://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.js"></script>
+  <script src="https://apigee.com/usergrid/sdk/usergrid.0.10.5.js"></script>
+        <script type="text/javascript">
+        
+            var apigee = new Usergrid.Client({
+                orgName:'mdobson',
+                appName:'sandbox'
+            });
+
+            // A Collection object that will be used to hold the list of books locally
+            var my_landmarks = new Usergrid.Collection({ "client":apigee, "type":"landmarks" });
+
+
+            $(document).ready( function () {
+              $("#create-button").bind("click", createLandmark);
+              loadLandmarks();
+            });
+
+            function loadLandmarks(){
+              // Actual network call
+
+
+                my_landmarks.fetch(
+
+                    // Success Callback
+                    function () {
+                        $('#landmarks-list').empty();
+                        
+                        while ( my_landmarks.hasNextEntity() ) {
+                            var current_landmark = my_landmarks.getNextEntity();
+
+                            // Output the book on the page
+                            $('#landmarks-list').append('<li><h3>'+current_landmark.get('landmark_name')+'</h3><p>'+current_landmark.get('city')+'</p></li>');
+                        }
+                        
+                        // Re-apply jQuery Mobile styles
+                        $('#landmarks-list').listview('refresh');
+                    },
+
+                    // Failure Callback
+                    function () { alert("read failed"); }
+                );
+            }
+
+            function createLandmark(){
+              new_landmark = { "landmark_name":$("#name-field").val(),
+                            "city":$("#location-field").val() };
+
+                my_landmarks.addEntity(new_landmark, function (error, response) {
+                    if (error) {
+                        alert('write failed');
+                    } else {
+                        $("#name-field").val(""), $("#location-field").val("");
+                        loadLandmarks();
+                        history.back();
+                    }
+                });
+            }
+
+        </script>
 </head>
 <body>
   <div data-role="page" data-control-title="Home" data-theme="b" id="page1">
@@ -13,9 +72,10 @@
           <h3>
               Places to See
           </h3>
+          <a href="#page-new-landmark" id="btn-compose" data-icon="plus" data-iconpos="right" data-inline="true" data-role="button" data-rel="dialog" data-transition="fade" class="ui-btn-right">Add</a>
       </div>
       <div data-role="content">
-          <ul data-role="listview" data-divider-theme="b" data-inset="false">
+          <ul data-role="listview" data-divider-theme="b" data-inset="false" id="landmarks-list">
               <li data-theme="c">
                   <h4>Landmark Name 1</h4>
                   <p>Landmark Location 1</p>
@@ -27,5 +87,20 @@
           </ul>
       </div>
   </div>
-</body>
+  <div data-role="page" data-theme="b" id="page-new-landmark">
+      <div data-role="header" data-theme="b">
+          <h1>Add a New Landmark</h1>
+      </div>
+      <div data-role="content">
+          <form>
+              <label for="name-field">Name</label>
+              <textarea id="name-field"></textarea>
+              <label for="location-field">Location</label>
+              <textarea id="location-field"></textarea>
+          </form>    
+          <a href="#page1" data-role="button" data-theme="c" data-inline="true">Cancel</a>
+          <button id="create-button" data-inline="true">Create</button>
+      </div>
+  </div>
+  </body>
 </html>
