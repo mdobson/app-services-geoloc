@@ -24,7 +24,7 @@
               //loadLandmarks();
             });
 
-            function loadLandmarks(){
+            function loadLandmarks(location){
               // Actual network call
 
                 my_landmarks = new Usergrid.Collection({ "client":apigee, "type":"landmarks", "qs":{"ql":"location within 15000 of "+location.coords.latitude+","+location.coords.longitude}});
